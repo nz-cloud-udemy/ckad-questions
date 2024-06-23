@@ -1,0 +1,55 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pay
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-version: stable
+    app: payment
+  name: payment
+  namespace: pay
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: payment
+      app-version: stable
+  template:
+    metadata:
+      labels:
+        app: payment
+        app-version: stable
+    spec:
+      containers:
+      - image: nginx:alpine
+        name: nginx
+        volumeMounts:
+        - name: labels
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: labels
+        downwardAPI:
+          items:
+            - path: "index.html"
+              fieldRef:
+                fieldPath: metadata.labels
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-svc
+  namespace: pay
+spec:
+  selector:
+    app: payment
+    app-version: stable
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 31120
+  type: NodePort

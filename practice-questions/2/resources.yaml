@@ -1,0 +1,38 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: credential
+---
+apiVersion: v1
+data:
+  PASSWORD: bXlfY3VycmVudF9wYXNzd29yZA==
+  USERNAME: bXlfdXNlcg==
+kind: Secret
+metadata:
+  name: creds
+  namespace: credential
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: login
+  name: login
+  namespace: credential
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: login
+  template:
+    metadata:
+      labels:
+        app: login
+    spec:
+      containers:
+      - image: nginx:alpine
+        name: login
+        envFrom:
+        - secretRef:
+            name: creds

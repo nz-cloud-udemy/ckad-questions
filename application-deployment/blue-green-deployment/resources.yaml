@@ -1,0 +1,53 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app-version: blue
+    product: my-web-app
+  name: my-web-app
+  namespace: bgd
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app-version: blue
+      product: my-web-app
+  template:
+    metadata:
+      labels:
+        app-version: blue
+        product: my-web-app
+    spec:
+      containers:
+      - image: nginx:alpine
+        name: nginx
+        volumeMounts:
+        - name: labels
+          mountPath: /usr/share/nginx/html
+      volumes:
+      - name: labels
+        downwardAPI:
+          items:
+            - path: "index.html"
+              fieldRef:
+                fieldPath: metadata.labels
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app-version: blue
+    product: my-web-app
+  name: blue-green-svc
+  namespace: bgd
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+    nodePort: 31230
+  selector:
+    app-version: blue
+    product: my-web-app
+  type: NodePort

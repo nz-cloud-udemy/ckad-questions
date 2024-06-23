@@ -1,0 +1,27 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: resource-management
+---
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-resource-constraint
+  namespace: resource-management
+spec:
+  limits:
+  - max:
+      cpu: 900m
+    type: Container
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: resource-management
+  name: managed
+spec:
+  containers:
+  - image: nginx:alpine
+    name: managed
+---

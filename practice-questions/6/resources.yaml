@@ -1,0 +1,71 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: network
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: network
+  name: web
+spec:
+  containers:
+  - image: nginx:alpine
+    name: web
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: network
+  name: api
+  labels:
+    role: api
+spec:
+  initContainers:
+  - name: init-con
+    image: busybox
+    command: ['sh', '-c', 'echo "Welcome to api!" > /tmp/content/index.html']
+    volumeMounts:
+    - name: content
+      mountPath: /tmp/content
+  volumes:
+  - name: content
+  containers:
+  - image: nginx:alpine
+    name: api
+    volumeMounts:
+    - name: content
+      mountPath: /usr/share/nginx/html
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: network
+  name: default-deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  namespace: network
+  name: api-ingress-policy
+spec:
+  podSelector:
+    matchLabels:
+      role: api
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: backend
+    ports:
+    - protocol: TCP
+      port: 80
+---

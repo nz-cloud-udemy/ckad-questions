@@ -1,0 +1,45 @@
+---
+apiVersion: v1
+data:
+  default.conf.template: |
+    server {
+        listen       80;
+        server_name  localhost;
+
+        location / {
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+        }
+
+        location /live {
+            return 200;
+        }
+
+        location /ready {
+            return 200;
+        }
+    }
+kind: ConfigMap
+metadata:
+  name: ng-cm
+  namespace: probes
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: web
+  name: web
+  namespace: probes
+spec:
+  restartPolicy: Never
+  containers:
+  - image: nginx:alpine
+    name: web
+    volumeMounts:
+      - name: conf
+        mountPath: /etc/nginx/templates
+  volumes:
+    - name: conf
+      configMap:
+        name: ng-cm
