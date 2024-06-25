@@ -15,13 +15,3 @@ spec:
       cpu: 900m
     type: Container
 ---
-apiVersion: v1
-kind: Pod
-metadata:
-  namespace: resource-management
-  name: managed
-spec:
-  containers:
-  - image: nginx:alpine
-    name: managed
----
