@@ -10,7 +10,7 @@ metadata:
   name: web1
   namespace: backend
   labels:
-    type: api1
+    type: web1
 spec:
   containers:
     - name: web1
@@ -24,7 +24,7 @@ metadata:
   name: web2
   namespace: backend
   labels:
-    type: api2
+    type: web2
 spec:
   containers:
     - name: web2
@@ -38,7 +38,7 @@ metadata:
   name: web3
   namespace: backend
   labels:
-    type: api3
+    type: web3
 spec:
   containers:
     - name: web3
