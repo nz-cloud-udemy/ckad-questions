@@ -5,6 +5,7 @@ metadata:
     app-version: blue
     product: my-web-app
   name: my-web-app
+  namespace: bgd
 spec:
   replicas: 3
   selector:
