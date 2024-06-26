@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: web
+  name: web
+  namespace: probes
+spec:
+  restartPolicy: Never
+  containers:
+  - image: nginx:alpine
+    name: web
+    volumeMounts:
+      - name: conf
+        mountPath: /etc/nginx/templates
+  volumes:
+    - name: conf
+      configMap:
+        name: ng-cm
