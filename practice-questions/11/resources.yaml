@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ckad-ingress
+  name: path-ingress
 ---
 apiVersion: v1
 data:
@@ -20,13 +20,13 @@ data:
 kind: ConfigMap
 metadata:
   name: menu-config
-  namespace: ckad-ingress
+  namespace: path-ingress
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: menu-app
-  namespace: ckad-ingress
+  namespace: path-ingress
   labels:
     run: menu-app
 spec:
@@ -58,7 +58,7 @@ metadata:
   labels:
     run: menu-app
   name: menu-svc
-  namespace: ckad-ingress
+  namespace: path-ingress
 spec:
   ports:
   - port: 80
@@ -84,13 +84,13 @@ data:
 kind: ConfigMap
 metadata:
   name: contact-config
-  namespace: ckad-ingress
+  namespace: path-ingress
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   name: contact-app
-  namespace: ckad-ingress
+  namespace: path-ingress
   labels:
     run: contact-app
 spec:
@@ -122,7 +122,7 @@ metadata:
   labels:
     run: contact-app
   name: contact-svc
-  namespace: ckad-ingress
+  namespace: path-ingress
 spec:
   ports:
   - port: 80
@@ -172,11 +172,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: info-ingress
-  namespace: ckad-ingress
+  namespace: path-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: ckad-ingress.info
+  - host: path-ingress.info
     http:
       paths:
         - path: /contact
