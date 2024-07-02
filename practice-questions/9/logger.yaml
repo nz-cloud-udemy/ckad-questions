@@ -4,9 +4,15 @@ metadata:
   name: logger
   namespace: adapter
 spec:
+  volumes:
+  - name: tmplog
+    emptyDir: {}
   containers:
-  - name: count
+  - name: logger
     image: busybox
+    volumeMounts:
+    - name: tmplog
+      mountPath: /tmp/log
     args:
     - /bin/sh
     - -c
@@ -16,9 +22,3 @@ spec:
         echo {\"datetime\": \"$(date -u)\"} >> /tmp/log/input.log;
         sleep 10;
       done
-    volumeMounts:
-    - name: tmplog
-      mountPath: /tmp/log
-  volumes:
-  - name: tmplog
-    emptyDir: {}
