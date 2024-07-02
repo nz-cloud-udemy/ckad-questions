@@ -10,7 +10,7 @@ metadata:
   labels:
     app-version: blue
     product: my-web-app
-  name: my-web-app
+  name: blue
   namespace: bgd
 spec:
   replicas: 3
