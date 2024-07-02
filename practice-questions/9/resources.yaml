@@ -17,9 +17,9 @@ data:
       <parse>
         @type json
       </parse>
-      tag count.format1
+      tag logger.format1
     </source>
-    <match count.format1>
+    <match logger.format1>
       @type file
       path /tmp/log/output
     </match>
@@ -31,7 +31,7 @@ metadata:
   namespace: adapter
 spec:
   containers:
-  - name: count
+  - name: logger
     image: busybox
     args:
     - /bin/sh
