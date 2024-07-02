@@ -39,7 +39,7 @@ spec:
     - >
       while true;
       do
-        echo {\"datetime\": \"$(date -u)\"} >> /tmp/log/input.log;
+        echo {\"dt\": \"$(date -u)\"} >> /tmp/log/input.log;
         sleep 10;
       done
     volumeMounts:
