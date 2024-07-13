@@ -6,8 +6,8 @@ metadata:
 ---
 apiVersion: v1
 data:
-  PASSWORD: bXlfY3VycmVudF9wYXNzd29yZA==
-  USERNAME: bXlfdXNlcg==
+  PASSWORD: bXktY3VycmVudC1wYXNzd29yZAo=
+  USERNAME: bXktdXNlcgo=
 kind: Secret
 metadata:
   name: creds
