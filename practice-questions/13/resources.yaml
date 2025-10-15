@@ -13,13 +13,13 @@ metadata:
   namespace: server
 spec:
   containers:
-  - image: bitnami/express
+  - image: node:24-alpine
     env:
       - name: PORT
         value: "3030"
     name: webapp
     resources: {}
-    command: ["sh", "-c", "express app && cd app; npm i && npm start"]
+    command: ["sh", "-c", "npx express-generator app && cd app; npm i && npm start; sleep 3600"]
     ports:
     - containerPort: 3030
 ---
